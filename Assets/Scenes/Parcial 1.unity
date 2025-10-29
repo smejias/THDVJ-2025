@@ -4643,6 +4643,10 @@ PrefabInstance:
       value: Gun
       objectReference: {fileID: 0}
     - target: {fileID: 5501901603248907492, guid: 6469d104dbece1845a34ba3d5cc05aba, type: 3}
+      propertyPath: gunData
+      value: 
+      objectReference: {fileID: 11400000, guid: bc7c235d8a2c1c642b977bd8edfe07df, type: 2}
+    - target: {fileID: 5501901603248907492, guid: 6469d104dbece1845a34ba3d5cc05aba, type: 3}
       propertyPath: gunRange
       value: 20
       objectReference: {fileID: 0}
