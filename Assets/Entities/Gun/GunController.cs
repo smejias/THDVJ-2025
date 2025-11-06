@@ -18,7 +18,7 @@ public class GunController : MonoBehaviour
         if (gunData == null)
         {
             Debug.LogError($"{name} has no Gun Data assigned!", this);
-        }
+        }   
     }
 
     private void HandleShoot()
