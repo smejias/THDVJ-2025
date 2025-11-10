@@ -184,6 +184,73 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Reload",
+            "id": "efd2dcc8-bfc4-43c7-b08e-9695ab151db0",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "a3fd7158-0915-4c3c-b839-a3084dede97e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "d981f111-79b0-4192-bf99-1050deb3daf6",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Crouch",
+            "id": "f3797523-7942-4f71-94e0-e9965450c352",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "26b71436-c6e4-41d9-bb0b-68285522be89",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "93f58c82-09b3-4f11-8e24-0d75c2507a48",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "485e65fe-4cfe-485e-ac82-cc33b926a2c1",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

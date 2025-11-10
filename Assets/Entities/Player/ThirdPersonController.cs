@@ -9,6 +9,7 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField] private float runSpeed = 8f;
     [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float gravity = -15f;
+    private float crouchspeed;
 
     [Header("Ground Check")]
     [SerializeField] private float groundCheckDistance = 0.2f;
@@ -61,9 +62,12 @@ public class ThirdPersonController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-    }
 
-    private void Update()
+        crouchspeed = walkSpeed * 0.75f;
+
+}
+
+private void Update()
     {
         HandleLook();
         CheckGrounded();
