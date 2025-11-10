@@ -1,23 +1,23 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonController : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    [Header("Movement")]
     [SerializeField] private float walkSpeed = 4f;
-    [SerializeField] private float runSpeed = 8f;
-    [SerializeField] private float jumpHeight = 2f;
     [SerializeField] private float gravity = -15f;
-    private float crouchspeed;
 
-    [Header("Ground Check")]
-    [SerializeField] private float groundCheckDistance = 0.2f;
-    [SerializeField] private LayerMask groundLayer = -1;
+    [Header("Crouch")]
+    [SerializeField] private float crouchSpeedMultiplier = 0.75f;
+    [SerializeField] private float crouchHeightMultiplier = 0.5f;
+    [SerializeField] private float crouchTransitionTime = 0.15f;
+    [SerializeField] private Transform meshRoot; // optional visual child to scale/offset
 
-    [Header("Camera Settings")]
-    [SerializeField] private Transform cameraTarget;  
-    [SerializeField] private Transform playerCamera;  
+    [Header("Camera")]
+    [SerializeField] private Transform cameraTarget;
+    [SerializeField] private Transform playerCamera;
     [SerializeField] private float sensitivity = 100f;
     [SerializeField] private float rotationSmoothTime = 0.05f;
     [SerializeField] private float cameraDistance = 5f;
@@ -25,55 +25,58 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField] private float minPitch = -30f;
     [SerializeField] private float maxPitch = 60f;
 
-    // Components
     private CharacterController controller;
+    private PlayerInput playerInput;
 
-    // Input
     private Vector2 moveInput;
-    private bool isRunning;
-    private bool jumpPressed;
-
-    // Movement
     private Vector3 velocity;
     private bool isGrounded;
-    private float currentSpeed;
+    private bool isCrouching;
+    private bool isTransitioning;
 
-    // Camera rotation
     private float yaw;
     private float pitch;
     private Vector3 currentRotation;
     private Vector3 rotationSmoothVelocity;
 
-    private PlayerInput playerInput;
+    private float defaultHeight;
+    private Vector3 defaultCenter;
+
+    private Vector3 meshDefaultLocalPos;
+    private Vector3 meshDefaultLocalScale;
 
     private void Awake()
     {
         playerInput = GetComponent<PlayerInput>();
-
-        if (playerInput != null && playerInput.defaultActionMap != null)
-        {
-            playerInput.enabled = true;
-        }
+        if (playerInput != null) playerInput.enabled = true;
     }
 
     private void Start()
     {
         controller = GetComponent<CharacterController>();
 
+        // store defaults but do NOT overwrite center/height on Start
+        defaultHeight = controller.height;
+        defaultCenter = controller.center;
+
+        if (meshRoot != null)
+        {
+            meshDefaultLocalPos = meshRoot.localPosition;
+            meshDefaultLocalScale = meshRoot.localScale;
+        }
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
 
-        crouchspeed = walkSpeed * 0.75f;
-
-}
-
-private void Update()
+    private void Update()
     {
         HandleLook();
         CheckGrounded();
         HandleMovement();
         HandleRotation();
         HandleCameraPosition();
+        ApplyGravity();
     }
 
     private void HandleLook()
@@ -86,64 +89,112 @@ private void Update()
         pitch -= mouseY;
         pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-        // Smooth the rotation
         Vector3 targetRotation = new Vector3(pitch, yaw);
         currentRotation = Vector3.SmoothDamp(currentRotation, targetRotation, ref rotationSmoothVelocity, rotationSmoothTime);
     }
 
     private void HandleCameraPosition()
     {
-        if (!cameraTarget || !playerCamera) return;
+        if (cameraTarget == null || playerCamera == null) return;
 
-        Quaternion rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0);
+        Quaternion rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
         playerCamera.rotation = rotation;
-
-        Vector3 offset = rotation * new Vector3(0, cameraHeight, -cameraDistance);
+        Vector3 offset = rotation * new Vector3(0f, cameraHeight, -cameraDistance);
         playerCamera.position = cameraTarget.position + offset;
     }
 
     private void CheckGrounded()
     {
-        Vector3 spherePosition = transform.position - new Vector3(0, controller.height / 2, 0);
-        isGrounded = Physics.CheckSphere(spherePosition, groundCheckDistance, groundLayer);
-
-        if (isGrounded && velocity.y < 0)
-            velocity.y = -2f;
+        Vector3 spherePosition = transform.position + controller.center - Vector3.up * (controller.height * 0.5f);
+        isGrounded = Physics.CheckSphere(spherePosition, 0.2f, ~0, QueryTriggerInteraction.Ignore);
+        if (isGrounded && velocity.y < 0f) velocity.y = -2f;
     }
 
     private void HandleMovement()
     {
-        Vector3 forward = Quaternion.Euler(0, yaw, 0) * Vector3.forward;
-        Vector3 right = Quaternion.Euler(0, yaw, 0) * Vector3.right;
+        Vector3 forward = Quaternion.Euler(0f, yaw, 0f) * Vector3.forward;
+        Vector3 right = Quaternion.Euler(0f, yaw, 0f) * Vector3.right;
 
         Vector3 moveDirection = forward * moveInput.y + right * moveInput.x;
-
-        currentSpeed = isRunning ? runSpeed : walkSpeed;
-        controller.Move(moveDirection * currentSpeed * Time.deltaTime);
+        float speed = walkSpeed * (isCrouching ? crouchSpeedMultiplier : 1f);
+        controller.Move(moveDirection * speed * Time.deltaTime);
     }
 
     private void HandleRotation()
     {
-        // Player faces same yaw as camera
-        Quaternion targetRotation = Quaternion.Euler(0, yaw, 0);
+        Quaternion targetRotation = Quaternion.Euler(0f, yaw, 0f);
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSmoothTime);
     }
 
-    //Lo saco por el momento porque me dijeron que Mati pide que no tenga jump
-    private void HandleGravityAndJump()
+    private void ApplyGravity()
     {
-        if (jumpPressed && isGrounded)
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            jumpPressed = false;
-        }
-
         velocity.y += gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
 
-    // Input System events
     public void OnMove(InputAction.CallbackContext context) => moveInput = context.ReadValue<Vector2>();
-    public void OnRun(InputAction.CallbackContext context) => isRunning = context.ReadValueAsButton();
-    public void OnJump(InputAction.CallbackContext context) { if (context.performed) jumpPressed = true; }
+
+    public void OnCrouch(InputAction.CallbackContext context)
+    {
+        if (context.performed && !isTransitioning)
+        {
+            StartCoroutine(CrouchTransitionCoroutine());
+        }
+    }
+
+    private IEnumerator CrouchTransitionCoroutine()
+    {
+        isTransitioning = true;
+        bool targetCrouchState = !isCrouching; // we toggle at the start of transition
+
+        float startHeight = controller.height;
+        float targetHeight = targetCrouchState ? defaultHeight * crouchHeightMultiplier : defaultHeight;
+
+        // capture the current world bottom of the capsule at transition start
+        float startBottomWorldY = transform.position.y + controller.center.y - (controller.height * 0.5f);
+
+        // compute target center.y that keeps the bottom at startBottomWorldY
+        float targetCenterY = startBottomWorldY - transform.position.y + (targetHeight * 0.5f);
+        float startCenterY = controller.center.y;
+
+        Vector3 meshStartPos = meshRoot != null ? meshRoot.localPosition : Vector3.zero;
+        Vector3 meshTargetPos = meshRoot != null ? meshDefaultLocalPos - new Vector3(0f, (defaultHeight - targetHeight) * 0.5f, 0f) : Vector3.zero;
+
+        Vector3 meshStartScale = meshRoot != null ? meshRoot.localScale : Vector3.one;
+        Vector3 meshTargetScale = meshRoot != null ? new Vector3(meshDefaultLocalScale.x, targetCrouchState ? meshDefaultLocalScale.y * crouchHeightMultiplier : meshDefaultLocalScale.y, meshDefaultLocalScale.z) : Vector3.one;
+
+        float elapsed = 0f;
+        while (elapsed < crouchTransitionTime)
+        {
+            float t = elapsed / crouchTransitionTime;
+
+            float h = Mathf.Lerp(startHeight, targetHeight, t);
+            float cY = Mathf.Lerp(startCenterY, targetCenterY, t);
+
+            controller.height = h;
+            controller.center = new Vector3(defaultCenter.x, cY, defaultCenter.z);
+
+            if (meshRoot != null)
+            {
+                meshRoot.localPosition = Vector3.Lerp(meshStartPos, meshTargetPos, t);
+                meshRoot.localScale = Vector3.Lerp(meshStartScale, meshTargetScale, t);
+            }
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        // finalize values exactly
+        controller.height = targetHeight;
+        controller.center = new Vector3(defaultCenter.x, targetCenterY, defaultCenter.z);
+
+        if (meshRoot != null)
+        {
+            meshRoot.localPosition = meshTargetPos;
+            meshRoot.localScale = meshTargetScale;
+        }
+
+        isCrouching = targetCrouchState;
+        isTransitioning = false;
+    }
 }

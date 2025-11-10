@@ -9,6 +9,9 @@ public class GunController : MonoBehaviour
     [Header("Spawn Point")]
     [SerializeField] private Transform bulletSpawnPoint;
 
+    [Header("Attachment")]
+    [SerializeField] private Transform handTransform; // assign "hand" child here
+
     private bool canShoot;
     private bool isReloading;
 
@@ -18,12 +21,33 @@ public class GunController : MonoBehaviour
     public event System.Action OnAmmoChanged;
     public event System.Action<bool> OnReloadStateChanged;
 
+    private Vector3 positionOffset;
+    private Quaternion rotationOffset;
+
     private void Start()
     {
         bulletsLeftInClip = gunData.clipSize;
         clipsLeft = gunData.clipAmount - 1;
         canShoot = true;
+
+        // store offset relative to hand
+        if (handTransform != null)
+        {
+            positionOffset = transform.position - handTransform.position;
+            rotationOffset = Quaternion.Inverse(handTransform.rotation) * transform.rotation;
+        }
+
         OnAmmoChanged?.Invoke();
+    }
+
+    private void LateUpdate()
+    {
+        // Follow the hand transform (moves with crouch and animations)
+        if (handTransform != null)
+        {
+            transform.position = handTransform.position + handTransform.rotation * positionOffset;
+            transform.rotation = handTransform.rotation * rotationOffset;
+        }
     }
 
     private void HandleShoot()
@@ -33,10 +57,12 @@ public class GunController : MonoBehaviour
         GameObject bullet = Instantiate(gunData.bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
 
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
-        if (bulletRb != null) bulletRb.linearVelocity = bulletSpawnPoint.forward * gunData.bulletSpeed;
+        if (bulletRb != null)
+            bulletRb.linearVelocity = bulletSpawnPoint.forward * gunData.bulletSpeed;
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();
-        if (bulletScript != null) bulletScript.SetRange(gunData.gunRange);
+        if (bulletScript != null)
+            bulletScript.SetRange(gunData.gunRange);
     }
 
     public void OnShoot(InputAction.CallbackContext context)
