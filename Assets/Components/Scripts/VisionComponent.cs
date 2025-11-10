@@ -15,6 +15,8 @@ public class VisionComponent : MonoBehaviour
 
     private List<GameObject> currentTargets = new List<GameObject>();
 
+    public List<GameObject> GetCurrentTargets() => currentTargets;
+
     private void Update()
     {
         CheckVision();
@@ -32,7 +34,6 @@ public class VisionComponent : MonoBehaviour
             {
                 newTargets.Add(candidate);
 
-                // New target found
                 if (!currentTargets.Contains(candidate))
                 {
                     OnTargetSeen?.Invoke(candidate);
@@ -40,7 +41,6 @@ public class VisionComponent : MonoBehaviour
             }
         }
 
-        // Check for lost targets
         foreach (GameObject oldTarget in currentTargets)
         {
             if (!newTargets.Contains(oldTarget))
@@ -54,32 +54,60 @@ public class VisionComponent : MonoBehaviour
 
     private bool CanSee(GameObject target)
     {
-        Vector3 directionToTarget = target.transform.position - transform.position;
-        float distance = directionToTarget.magnitude;
+        Vector3 toTarget = target.transform.position - transform.position;
+        float distance = toTarget.magnitude;
 
-        // Too far?
-        if (distance > visionRange) return false;
+        if (distance > visionRange)
+        {
+            Debug.Log($"[VisionComponent] {target.name} is TOO FAR: {distance:F2}m > {visionRange}m");
+            return false;
+        }
 
-        // Outside cone angle?
-        float angle = Vector3.Angle(transform.forward, directionToTarget);
-        if (angle > visionAngle / 2f) return false;
+        Vector3 toTargetNormalized = toTarget.normalized;
+        Vector3 forward = transform.forward;
+        float dot = Vector3.Dot(forward, toTargetNormalized);
+        float minDot = Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad);
 
-        return true;
+        float actualAngle = Mathf.Acos(dot) * Mathf.Rad2Deg;
+        bool inAngle = dot >= minDot;
+
+        Debug.Log($"[VisionComponent] {target.name}: distance={distance:F2}m, angle={actualAngle:F1}° (max={visionAngle / 2f}°), inCone={inAngle}");
+
+        return inAngle;
     }
 
-    // Show vision cone in editor
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmos()
     {
-        Gizmos.color = Color.yellow;
+        if (currentTargets.Count > 0)
+            Gizmos.color = new Color(1, 0, 0, 0.3f);
+        else
+            Gizmos.color = new Color(0, 1, 0, 0.3f);
 
-        // Draw range circle
+        Vector3 forward = transform.forward * visionRange;
+        Gizmos.DrawRay(transform.position, forward);
+
+        Quaternion leftRot = Quaternion.AngleAxis(-visionAngle * 0.5f, Vector3.up);
+        Vector3 leftBoundary = leftRot * transform.forward * visionRange;
+        Gizmos.DrawRay(transform.position, leftBoundary);
+
+        Quaternion rightRot = Quaternion.AngleAxis(visionAngle * 0.5f, Vector3.up);
+        Vector3 rightBoundary = rightRot * transform.forward * visionRange;
+        Gizmos.DrawRay(transform.position, rightBoundary);
+
+        int segments = 20;
+        Vector3 prevPoint = transform.position + leftBoundary;
+
+        for (int i = 1; i <= segments; i++)
+        {
+            float t = (float)i / segments;
+            float angle = Mathf.Lerp(-visionAngle * 0.5f, visionAngle * 0.5f, t);
+            Quaternion rot = Quaternion.AngleAxis(angle, Vector3.up);
+            Vector3 point = transform.position + rot * transform.forward * visionRange;
+            Gizmos.DrawLine(prevPoint, point);
+            prevPoint = point;
+        }
+
+        Gizmos.color = new Color(Gizmos.color.r, Gizmos.color.g, Gizmos.color.b, 0.1f);
         Gizmos.DrawWireSphere(transform.position, visionRange);
-
-        // Draw cone lines
-        Vector3 leftEdge = Quaternion.Euler(0, -visionAngle / 2f, 0) * transform.forward * visionRange;
-        Vector3 rightEdge = Quaternion.Euler(0, visionAngle / 2f, 0) * transform.forward * visionRange;
-
-        Gizmos.DrawLine(transform.position, transform.position + leftEdge);
-        Gizmos.DrawLine(transform.position, transform.position + rightEdge);
     }
 }

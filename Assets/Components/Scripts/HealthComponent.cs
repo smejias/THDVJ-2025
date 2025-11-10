@@ -32,7 +32,6 @@ public class HealthComponent : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        OnHealthChanged?.Invoke(currentHealth);
     }
 
     private void Update()

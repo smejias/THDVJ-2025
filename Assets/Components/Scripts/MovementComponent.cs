@@ -1,42 +1,42 @@
-using UnityEngine;
+    using UnityEngine;
 
-public class MovementComponent : MonoBehaviour
-{
-    [SerializeField] private float moveSpeed = 3f;
-    [SerializeField] private Rigidbody rigidBody;
-
-    private Transform target;
-
-    private void Awake()
+    public class MovementComponent : MonoBehaviour
     {
-        if (!rigidBody) rigidBody = GetComponent<Rigidbody>();
-        rigidBody.freezeRotation = true;
-    }
+        [SerializeField] private float moveSpeed = 3f;
+        [SerializeField] private Rigidbody rigidBody;
 
-    public void SetTarget(Transform newTarget) => target = newTarget;
-    public void ClearTarget() => target = null;
+        private Transform target;
 
-    private void FixedUpdate()
-    {
-        if (target == null) return;
-
-        var distance = Vector3.Distance(transform.position, target.position);
-
-        if (distance >= 2.0)
+        private void Awake()
         {
-            Vector3 direction = (target.position - transform.position).normalized;
-            direction.y = 0f;
-
-            if (direction.sqrMagnitude > 0.01f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.fixedDeltaTime);
-            }
-
-            // Move
-            Vector3 move = direction * moveSpeed * Time.fixedDeltaTime;
-            rigidBody.MovePosition(rigidBody.position + move);
+            if (!rigidBody) rigidBody = GetComponent<Rigidbody>();
+            rigidBody.freezeRotation = true;
         }
+
+        public void SetTarget(Transform newTarget) => target = newTarget;
+        public void ClearTarget() => target = null;
+
+        private void FixedUpdate()
+        {
+            if (target == null) return;
+
+            var distance = Vector3.Distance(transform.position, target.position);
+
+            if (distance >= 2.0)
+            {
+                Vector3 direction = (target.position - transform.position).normalized;
+                direction.y = 0f;
+
+                if (direction.sqrMagnitude > 0.01f)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(direction);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.fixedDeltaTime);
+                }
+
+                // Move
+                Vector3 move = direction * moveSpeed * Time.fixedDeltaTime;
+                rigidBody.MovePosition(rigidBody.position + move);
+            }
        
+        }
     }
-}
