@@ -1,42 +1,42 @@
-    using UnityEngine;
+using UnityEngine;
 
-    public class MovementComponent : MonoBehaviour
+public class MovementComponent : MonoBehaviour
+{
+    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private Rigidbody rigidBody;
+    [SerializeField] private float stoppingDistance = 0.5f;
+
+    private Transform target;
+
+    private void Awake()
     {
-        [SerializeField] private float moveSpeed = 3f;
-        [SerializeField] private Rigidbody rigidBody;
+        if (!rigidBody) rigidBody = GetComponent<Rigidbody>();
+        rigidBody.freezeRotation = true;
+    }
 
-        private Transform target;
+    public void SetTarget(Transform newTarget) => target = newTarget;
+    public void ClearTarget() => target = null;
 
-        private void Awake()
+    private void FixedUpdate()
+    {
+        if (target == null) return;
+
+        var distance = Vector3.Distance(transform.position, target.position);
+
+        if (distance > stoppingDistance)
         {
-            if (!rigidBody) rigidBody = GetComponent<Rigidbody>();
-            rigidBody.freezeRotation = true;
-        }
+            Vector3 direction = (target.position - transform.position).normalized;
+            direction.y = 0f;
 
-        public void SetTarget(Transform newTarget) => target = newTarget;
-        public void ClearTarget() => target = null;
-
-        private void FixedUpdate()
-        {
-            if (target == null) return;
-
-            var distance = Vector3.Distance(transform.position, target.position);
-
-            if (distance >= 2.0)
+            if (direction.sqrMagnitude > 0.01f)
             {
-                Vector3 direction = (target.position - transform.position).normalized;
-                direction.y = 0f;
-
-                if (direction.sqrMagnitude > 0.01f)
-                {
-                    Quaternion targetRotation = Quaternion.LookRotation(direction);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.fixedDeltaTime);
-                }
-
-                // Move
-                Vector3 move = direction * moveSpeed * Time.fixedDeltaTime;
-                rigidBody.MovePosition(rigidBody.position + move);
+                Quaternion targetRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 10f * Time.fixedDeltaTime);
             }
-       
+
+            Vector3 move = direction * moveSpeed * Time.fixedDeltaTime;
+            rigidBody.MovePosition(rigidBody.position + move);
         }
     }
+}
+    

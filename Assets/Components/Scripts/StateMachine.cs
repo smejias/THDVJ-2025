@@ -63,5 +63,6 @@ public class StateMachine : MonoBehaviour
         }
     }
 
+    public State CurrentState => currentState;
 
 }
