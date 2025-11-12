@@ -37,6 +37,11 @@ public class VisionComponent : MonoBehaviour
                 if (!currentTargets.Contains(candidate))
                 {
                     OnTargetSeen?.Invoke(candidate);
+
+                    if (candidate.CompareTag(targetTag))
+                    {
+                        EnemyAlertSystem.Instance?.BroadcastAlert();
+                    }
                 }
             }
         }

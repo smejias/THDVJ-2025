@@ -14,6 +14,8 @@ public class EnemyAI : MonoBehaviour
         health.OnHealthChanged.AddListener(OnDamaged);
     }
 
+
+
     private void OnPlayerSeen(GameObject player)
         => stateMachine.ChangeState<ChaseState>();
 
@@ -25,4 +27,7 @@ public class EnemyAI : MonoBehaviour
 
     private void OnDeath()
         => stateMachine.ChangeState<DeadState>();
+
+
+
 }

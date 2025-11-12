@@ -27,6 +27,11 @@ public class StateMachine : MonoBehaviour
         {
             Debug.LogWarning($"{name}: No default state assigned!");
         }
+
+        EnemyAlertSystem.Instance?.Register(this);
+
+        if (defaultState != null)
+            ChangeState(defaultState.GetType());
     }
 
 
@@ -65,4 +70,8 @@ public class StateMachine : MonoBehaviour
 
     public State CurrentState => currentState;
 
+    private void OnDestroy()
+    {
+        EnemyAlertSystem.Instance?.Unregister(this);
+    }
 }
