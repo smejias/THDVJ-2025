@@ -74,34 +74,6 @@
             ]
         },
         {
-            "name": "Run",
-            "id": "ee05ac0a-5bb7-40ca-a984-418aaa1a6fbc",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "fa876d29-9077-4897-9a65-7e21501aff7a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "31f33de4-4ded-47d4-8d50-a132764436a6",
-                    "path": "<Keyboard>/leftShift",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "Look",
             "id": "050c4a76-03e0-4b28-a04d-d370e103ec30",
             "actions": [
@@ -243,6 +215,34 @@
                     "name": "",
                     "id": "485e65fe-4cfe-485e-ac82-cc33b926a2c1",
                     "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Pause",
+            "id": "59d3e8f1-ec58-42c5-a98c-37a3126444f9",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "b47fe4c8-3a01-447c-8ffc-337b0568828b",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a3f7c2e5-2727-4ab7-a0f3-844a3727d0ba",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

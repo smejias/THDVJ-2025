@@ -1271,6 +1271,10 @@ PrefabInstance:
       propertyPath: OnTargetSeen.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7193892402658403434, guid: cec88dd47776eb84c9dfafc63f994e0b, type: 3}
+      propertyPath: maxHealth
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 7934905577178515783, guid: cec88dd47776eb84c9dfafc63f994e0b, type: 3}
       propertyPath: defaultState
       value: 
@@ -1870,7 +1874,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2f5afd3231caeb46904bd2db252f055, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoveryTime: 1
+  recoveryTime: 3
 --- !u!1 &1972697740
 GameObject:
   m_ObjectHideFlags: 0
