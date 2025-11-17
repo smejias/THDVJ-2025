@@ -11,7 +11,6 @@ public class VisionComponent : MonoBehaviour
 
     [Header("Events")]
     public UnityEvent<GameObject> OnTargetSeen;
-    public UnityEvent<GameObject> OnTargetLost;
 
     private List<GameObject> currentTargets = new List<GameObject>();
 
@@ -37,22 +36,17 @@ public class VisionComponent : MonoBehaviour
                 if (!currentTargets.Contains(candidate))
                 {
                     OnTargetSeen?.Invoke(candidate);
-
-                    if (candidate.CompareTag(targetTag))
-                    {
-                        EnemyAlertSystem.Instance?.BroadcastAlert();
-                    }
                 }
             }
         }
 
-        foreach (GameObject oldTarget in currentTargets)
-        {
-            if (!newTargets.Contains(oldTarget))
-            {
-                OnTargetLost?.Invoke(oldTarget);
-            }
-        }
+        //foreach (GameObject oldTarget in currentTargets)
+        //{
+        //    if (!newTargets.Contains(oldTarget))
+        //    {
+        //        OnTargetLost?.Invoke(oldTarget);
+        //    }
+        //}
 
         currentTargets = newTargets;
     }
@@ -63,22 +57,14 @@ public class VisionComponent : MonoBehaviour
         float distance = toTarget.magnitude;
 
         if (distance > visionRange)
-        {
-            Debug.Log($"[VisionComponent] {target.name} is TOO FAR: {distance:F2}m > {visionRange}m");
             return false;
-        }
 
         Vector3 toTargetNormalized = toTarget.normalized;
         Vector3 forward = transform.forward;
         float dot = Vector3.Dot(forward, toTargetNormalized);
         float minDot = Mathf.Cos(visionAngle * 0.5f * Mathf.Deg2Rad);
 
-        float actualAngle = Mathf.Acos(dot) * Mathf.Rad2Deg;
-        bool inAngle = dot >= minDot;
-
-        Debug.Log($"[VisionComponent] {target.name}: distance={distance:F2}m, angle={actualAngle:F1}° (max={visionAngle / 2f}°), inCone={inAngle}");
-
-        return inAngle;
+        return dot >= minDot;
     }
 
     private void OnDrawGizmos()

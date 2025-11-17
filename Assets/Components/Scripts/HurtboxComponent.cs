@@ -16,13 +16,10 @@ public class HurtBoxComponent : MonoBehaviour
             Debug.LogWarning($"HurtBoxComponent on {gameObject.name} needs a Collider!");
         }
 
-        // Auto-find health component if not assigned
         if (targetHealth == null)
         {
-            // First try same GameObject
             targetHealth = GetComponent<HealthComponent>();
 
-            // If not found, try parent
             if (targetHealth == null)
             {
                 targetHealth = GetComponentInParent<HealthComponent>();
@@ -40,10 +37,6 @@ public class HurtBoxComponent : MonoBehaviour
             }
         }
     }
-
-    /// <summary>
-    /// Called by HitBox to deal damage to this object
-    /// </summary>
     public void TakeDamage(float damage)
     {
         if (targetHealth != null)

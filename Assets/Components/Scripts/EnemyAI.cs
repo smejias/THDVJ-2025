@@ -9,25 +9,35 @@ public class EnemyAI : MonoBehaviour
     private void Awake()
     {
         vision.OnTargetSeen.AddListener(OnPlayerSeen);
-        vision.OnTargetLost.AddListener(OnPlayerLost);
         health.OnDeath.AddListener(OnDeath);
-        health.OnHealthChanged.AddListener(OnDamaged);
+        health.OnTookDamage.AddListener(OnDamaged);
+
+        if (EnemyAlertSystem.Instance != null)
+        {
+            EnemyAlertSystem.Instance.Register(stateMachine);
+        }
     }
 
-
+    private void OnDestroy()
+    {
+        if (EnemyAlertSystem.Instance != null)
+        {
+            EnemyAlertSystem.Instance.Unregister(stateMachine);
+        }
+    }
 
     private void OnPlayerSeen(GameObject player)
-        => stateMachine.ChangeState<ChaseState>();
+    {
+        stateMachine.ChangeState<AlertState>();
+    }
 
-    private void OnPlayerLost(GameObject player)
-        => stateMachine.ChangeState<PatrolState>();
-
-    private void OnDamaged(float newHealth)
-        => stateMachine.ChangeState<DamagedState>();
+    private void OnDamaged() 
+    {
+        stateMachine.ChangeState<DamagedState>();
+    }
 
     private void OnDeath()
-        => stateMachine.ChangeState<DeadState>();
-
-
-
+    {
+        stateMachine.ChangeState<DeadState>();
+    }
 }

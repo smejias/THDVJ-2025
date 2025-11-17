@@ -18,6 +18,7 @@ public class HealthComponent : MonoBehaviour
     [Header("Events")]
     public UnityEvent<float> OnHealthChanged;
     public UnityEvent OnDeath;
+    public UnityEvent OnTookDamage; // NEW EVENT
 
     public float CurrentHealth => currentHealth;
     public float MaxHealth => maxHealth;
@@ -32,6 +33,7 @@ public class HealthComponent : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth);
     }
 
     private void Update()
@@ -54,6 +56,7 @@ public class HealthComponent : MonoBehaviour
         Debug.Log(transform.parent.name + " attacked. Health at: " + currentHealth);
 
         OnHealthChanged?.Invoke(currentHealth);
+        OnTookDamage?.Invoke(); 
 
         if (currentHealth <= 0 && canDie && !hasDied)
         {

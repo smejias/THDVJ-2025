@@ -20,7 +20,10 @@ public class EnemyAlertSystem : MonoBehaviour
     public void Register(StateMachine enemy)
     {
         if (!registeredEnemies.Contains(enemy))
+        {
             registeredEnemies.Add(enemy);
+            Debug.Log($"[AlertSystem] Registered: {enemy.name}");
+        }
     }
 
     public void Unregister(StateMachine enemy)
@@ -30,11 +33,23 @@ public class EnemyAlertSystem : MonoBehaviour
 
     public void BroadcastAlert()
     {
+        Debug.Log($"[AlertSystem] ALERT broadcast to {registeredEnemies.Count} enemies!");
+
         foreach (var enemy in registeredEnemies)
         {
-            enemy.ChangeState<AlertState>();
-        }
+            if (enemy == null) continue;
 
-        Debug.Log($"[AlertSystem] ALERT broadcast to {registeredEnemies.Count} enemies!");
+            ChaseState chaseState = enemy.GetComponentInChildren<ChaseState>(true);
+
+            if (chaseState != null)
+            {
+                enemy.ChangeState<ChaseState>();
+                Debug.Log($"[AlertSystem] {enemy.name} → ChaseState");
+            }
+            else
+            {
+                Debug.Log($"[AlertSystem] {enemy.name} has no ChaseState (camera or stationary enemy)");
+            }
+        }
     }
 }

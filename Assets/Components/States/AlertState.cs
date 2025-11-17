@@ -2,36 +2,37 @@ using UnityEngine;
 
 public class AlertState : State
 {
-    [SerializeField] private bool isCamera = false;
-    [SerializeField] private float alertDuration = 5f;
-
-    private float timer;
-    private MovementComponent movement;
-    private Transform player;
-
     public override void OnEnter()
     {
-        timer = 0f;
-        movement = GetComponentInParent<MovementComponent>();
-        player = GameObject.FindGameObjectWithTag("Player")?.transform;
+        Debug.Log($"{name}: Entering Alert - Broadcasting to all enemies!");
 
-        Debug.Log($"{name}: Entering Alert");
+        if (EnemyAlertSystem.Instance != null)
+        {
+            EnemyAlertSystem.Instance.BroadcastAlert();
+        }
+        else
+        {
+            Debug.LogWarning("EnemyAlertSystem not found!");
+        }
 
-        if (!isCamera && movement != null && player != null)
-            movement.SetTarget(player);
+        ChaseState chaseState = stateMachine.GetComponentInChildren<ChaseState>(true);
+        if (chaseState != null)
+        {
+            stateMachine.ChangeState<ChaseState>();
+        }
+        else
+        {
+            Debug.Log($"{name}: No ChaseState found (camera or stationary enemy), staying in Alert");
+        }
     }
 
     public override void Tick()
     {
-        timer += Time.deltaTime;
-        if (timer >= alertDuration)
-            stateMachine.ChangeState<PatrolState>();
+        // AlertState immediately transitions after broadcasting
     }
 
     public override void OnExit()
     {
         Debug.Log($"{name}: Exiting Alert");
-        if (movement != null)
-            movement.ClearTarget();
     }
 }
