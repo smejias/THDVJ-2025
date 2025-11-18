@@ -36,7 +36,7 @@ public class HurtBoxComponent : MonoBehaviour
                 Debug.LogWarning($"HurtBoxComponent on {gameObject.name} couldn't find a HealthComponent!");
             }
         }
-    }
+    }   
     public void TakeDamage(float damage)
     {
         if (targetHealth != null)

@@ -13,7 +13,7 @@ public class PatrolState : State
     private float waitTimer = 0f;
     private bool isWaiting = false;
     private Transform enemyTransform;
-    private CharacterController controller; // NEW
+    private CharacterController controller;
 
     public override void OnEnter()
     {
@@ -150,5 +150,10 @@ public class PatrolState : State
                     Gizmos.DrawLine(enemyTransform.position, currentWaypoint.position);
             }
         }
+    }
+
+    public void SetMoveSpeed(float speed)
+    {
+        patrolSpeed = speed;
     }
 }

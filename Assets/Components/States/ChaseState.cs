@@ -131,4 +131,14 @@ public class ChaseState : State
         Gizmos.color = Color.cyan;
         Gizmos.DrawWireSphere(transform.position, shootingRange);
     }
+
+    public void SetMoveSpeed(float speed)
+    {
+        chaseSpeed = speed;
+    }
+
+    public void SetShootingRange(float range)
+    {
+        shootingRange = range;
+    }
 }

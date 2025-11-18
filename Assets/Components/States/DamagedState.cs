@@ -27,4 +27,9 @@ public class DamagedState : State
     {
         Debug.Log($"{name}: Exiting Damaged");
     }
+
+    public void SetAlertTime(float time)
+    {
+        alertTime = time;
+    }
 }

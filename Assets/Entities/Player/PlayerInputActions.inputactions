@@ -147,7 +147,7 @@
                 {
                     "name": "",
                     "id": "b974daf4-606b-4086-b265-b854586a172d",
-                    "path": "<Keyboard>/f3",
+                    "path": "<Keyboard>/f1",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -243,6 +243,34 @@
                     "name": "",
                     "id": "a3f7c2e5-2727-4ab7-a0f3-844a3727d0ba",
                     "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Restart",
+            "id": "68eae464-9d71-4b25-bca8-e737f02c867d",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "6349ba73-68a0-460f-930c-d4f67744ca30",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "31d27753-2f42-473a-bbfb-088f7a82b6fb",
+                    "path": "<Keyboard>/f2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

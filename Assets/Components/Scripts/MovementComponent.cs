@@ -69,4 +69,9 @@ public class MovementComponent : MonoBehaviour
         Vector3 newPosition = rigidBody.position + movementVector;
         rigidBody.MovePosition(newPosition);
     }
+
+    public void SetMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
 }

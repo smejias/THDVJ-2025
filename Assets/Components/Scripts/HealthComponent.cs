@@ -108,4 +108,11 @@ public class HealthComponent : MonoBehaviour
     {
         canRegenerate = enabled;
     }
+
+    public void SetMaxHealth(float newMaxHealth)
+    {
+        maxHealth = newMaxHealth;
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth);
+    }
 }

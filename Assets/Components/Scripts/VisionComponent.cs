@@ -101,4 +101,14 @@ public class VisionComponent : MonoBehaviour
         Gizmos.color = new Color(Gizmos.color.r, Gizmos.color.g, Gizmos.color.b, 0.1f);
         Gizmos.DrawWireSphere(transform.position, visionRange);
     }
+
+    public void SetVisionRange(float range)
+    {
+        visionRange = range;
+    }
+
+    public void SetVisionAngle(float angle)
+    {
+        visionAngle = angle;
+    }
 }

@@ -122,6 +122,11 @@ public class EnemyWeaponComponent : MonoBehaviour
         canShoot = enabled;
     }
 
+    public void SetGunData(SO_Gun newGunData)
+    {
+        gunData = newGunData;
+    }
+
     public SO_Gun GunData => gunData;
     public Transform Target => target;
 }

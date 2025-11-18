@@ -115,4 +115,16 @@ public class GunController : MonoBehaviour
     public int BulletsLeftInClip => bulletsLeftInClip;
     public int ClipsLeft => clipsLeft;
     public int ClipSize => gunData.clipSize;
+
+    public void ResetAmmo()
+    {
+        bulletsLeftInClip = gunData.clipSize;
+        clipsLeft = 2 - 1;  // 2 cargadores totales, uno ya está en el arma
+        canShoot = true;
+        isReloading = false;
+
+        OnAmmoChanged?.Invoke();
+
+        Debug.Log($"[GunController] Ammo reset: {bulletsLeftInClip}/{gunData.clipSize} bullets, {clipsLeft} clips left");
+    }
 }

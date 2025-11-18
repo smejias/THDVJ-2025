@@ -126,26 +126,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 3939701937930383547}
         m_TargetAssemblyTypeName: ThirdPersonController, Assembly-CSharp
-        m_MethodName: OnRun
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: fa876d29-9077-4897-9a65-7e21501aff7a
-    m_ActionName: 'Run/New action[/Keyboard/leftShift]'
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: aa741cde-7019-4aca-82e0-021c172371b3
-    m_ActionName: 'Jump/New action[/Keyboard/space]'
-  - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3939701937930383547}
-        m_TargetAssemblyTypeName: ThirdPersonController, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -163,13 +143,89 @@ MonoBehaviour:
     m_ActionId: e93116ea-c38c-48f0-8388-13add9477b39
     m_ActionName: Look/New action
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1747424359932096647}
+        m_TargetAssemblyTypeName: GunController, Assembly-CSharp
+        m_MethodName: OnShoot
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 4caf736b-2238-4c52-bef7-813d16653bc4
     m_ActionName: 'Shoot/New action[/Mouse/leftButton]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnRespawn
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 77ddc0d1-c4a3-4670-a750-26174212b3ba
     m_ActionName: 'Respawn/New action[/Keyboard/f3]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1747424359932096647}
+        m_TargetAssemblyTypeName: GunController, Assembly-CSharp
+        m_MethodName: OnReload
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a3fd7158-0915-4c3c-b839-a3084dede97e
+    m_ActionName: 'Reload/New action[/Keyboard/r]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3939701937930383547}
+        m_TargetAssemblyTypeName: ThirdPersonController, Assembly-CSharp
+        m_MethodName: OnCrouch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 26b71436-c6e4-41d9-bb0b-68285522be89
+    m_ActionName: 'Crouch/New action[/Keyboard/leftCtrl,/Keyboard/c]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b47fe4c8-3a01-447c-8ffc-337b0568828b
+    m_ActionName: 'Pause/New action[/Keyboard/escape]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OnRestart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6349ba73-68a0-460f-930c-d4f67744ca30
+    m_ActionName: 'Restart/New action[/Keyboard/f2]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Move
@@ -380,6 +436,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1204288195776187431, guid: ea6770203efd4fa47a6d11ef93565c4c, type: 3}
   m_PrefabInstance: {fileID: 3123172053682620130}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6992834671870148753 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5358217554780554867, guid: ea6770203efd4fa47a6d11ef93565c4c, type: 3}
+  m_PrefabInstance: {fileID: 3123172053682620130}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b72b59d9ac00c749878349fca4b0680, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4598239723358571569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -428,6 +495,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3635029316446071397, guid: 2ec9f0fa6f023aa4295924d16d4ae779, type: 3}
+      propertyPath: targetHealth
+      value: 
+      objectReference: {fileID: 6992834671870148753}
     - target: {fileID: 4386823476051756947, guid: 2ec9f0fa6f023aa4295924d16d4ae779, type: 3}
       propertyPath: m_Name
       value: HurtboxComponent
@@ -600,6 +671,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f8e3e9ce2c0b9249bec243385ae4a46, type: 3}
+--- !u!114 &1747424359932096647 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4845778264310034404, guid: 8f8e3e9ce2c0b9249bec243385ae4a46, type: 3}
+  m_PrefabInstance: {fileID: 6593182555990646627}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67aacd2dc3f206649b5e9d1fe53472e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5399304006618465326 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1265967762984508237, guid: 8f8e3e9ce2c0b9249bec243385ae4a46, type: 3}
