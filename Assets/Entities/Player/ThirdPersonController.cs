@@ -171,9 +171,16 @@ public class ThirdPersonController : MonoBehaviour
     {
         if (context.performed && !isTransitioning)
         {
+            if (isCrouching && !CanStandUp())
+            {
+                Debug.Log("No hay suficiente espacio para pararse!");
+                return; 
+            }
+
             StartCoroutine(CrouchTransitionCoroutine());
         }
     }
+
 
     private IEnumerator CrouchTransitionCoroutine()
     {
@@ -217,7 +224,6 @@ public class ThirdPersonController : MonoBehaviour
             yield return null;
         }
 
-        // finalize values exactly
         controller.height = targetHeight;
         controller.center = new Vector3(defaultCenter.x, targetCenterY, defaultCenter.z);
 
@@ -230,4 +236,23 @@ public class ThirdPersonController : MonoBehaviour
         isCrouching = targetCrouchState;
         isTransitioning = false;
     }
+
+    private bool CanStandUp()
+    {
+        float targetHeight = defaultHeight;
+        float radius = controller.radius;
+
+        Vector3 centerWhenStanding = new Vector3(
+            controller.center.x,
+            defaultCenter.y,
+            controller.center.z
+        );
+
+        Vector3 point1 = transform.position + centerWhenStanding - Vector3.up * (targetHeight / 2f - radius);
+
+        Vector3 point2 = transform.position + centerWhenStanding + Vector3.up * (targetHeight / 2f - radius);
+
+            return !Physics.CheckCapsule(point1, point2, radius, ~0, QueryTriggerInteraction.Ignore);
+    }
+
 }
