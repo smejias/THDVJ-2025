@@ -42,9 +42,22 @@ public class UIManager : MonoBehaviour
 
         bulletsCounter.text = $"{gunController.BulletsLeftInClip}/{gunController.ClipSize}";
 
+        int requiredIcons = gunController.ClipsLeft;
+
+        
+        while (clipIcons.Count < requiredIcons)
+        {
+            GameObject icon = Instantiate(clipIconPrefab, clipsContainer);
+            clipIcons.Add(icon);
+        }
+
+      
         for (int i = 0; i < clipIcons.Count; i++)
-            clipIcons[i].SetActive(i < gunController.ClipsLeft);
+        {
+            clipIcons[i].SetActive(i < requiredIcons);
+        }
     }
+
 
     private void CreateClipIcons()
     {

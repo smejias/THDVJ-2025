@@ -12,6 +12,9 @@ public class GunController : MonoBehaviour
     [Header("Attachment")]
     [SerializeField] private Transform handTransform; // assign "hand" child here
 
+    [Header("Magazine Limits")]
+    [SerializeField] private int maxClips = 10;
+
     private bool canShoot;
     private bool isReloading;
 
@@ -42,7 +45,6 @@ public class GunController : MonoBehaviour
 
     private void LateUpdate()
     {
-        // Follow the hand transform (moves with crouch and animations)
         if (handTransform != null)
         {
             transform.position = handTransform.position + handTransform.rotation * positionOffset;
@@ -54,16 +56,23 @@ public class GunController : MonoBehaviour
     {
         if (gunData == null || gunData.bulletPrefab == null) return;
 
-        GameObject bullet = Instantiate(gunData.bulletPrefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        Vector3 aimDir = GetAimDirection();
+
+        GameObject bullet = Instantiate(
+            gunData.bulletPrefab,
+            bulletSpawnPoint.position,
+            Quaternion.LookRotation(aimDir)
+        );
 
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
         if (bulletRb != null)
-            bulletRb.linearVelocity = bulletSpawnPoint.forward * gunData.bulletSpeed;
+            bulletRb.linearVelocity = aimDir * gunData.bulletSpeed;
 
         Bullet bulletScript = bullet.GetComponent<Bullet>();
         if (bulletScript != null)
             bulletScript.SetRange(gunData.gunRange);
     }
+
 
     public void OnShoot(InputAction.CallbackContext context)
     {
@@ -119,7 +128,7 @@ public class GunController : MonoBehaviour
     public void ResetAmmo()
     {
         bulletsLeftInClip = gunData.clipSize;
-        clipsLeft = 2 - 1;  // 2 cargadores totales, uno ya está en el arma
+        clipsLeft = maxClips - 1; 
         canShoot = true;
         isReloading = false;
 
@@ -127,4 +136,37 @@ public class GunController : MonoBehaviour
 
         Debug.Log($"[GunController] Ammo reset: {bulletsLeftInClip}/{gunData.clipSize} bullets, {clipsLeft} clips left");
     }
+
+    public bool AddMagazines(int amount)
+    {
+        if (clipsLeft >= maxClips - 1)
+        {
+            Debug.Log($"[GunController] Already at max magazines ({maxClips})");
+            return false;
+        }
+
+        clipsLeft += amount;
+        clipsLeft = Mathf.Min(clipsLeft, maxClips - 1);
+
+        OnAmmoChanged?.Invoke();
+
+        Debug.Log($"[GunController] Added {amount} magazine(s). Total: {clipsLeft + 1}/{maxClips}");
+        return true;
+    }
+
+    private Vector3 GetAimDirection()
+    {
+        Camera cam = Camera.main;
+        Vector3 center = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
+
+        Ray ray = cam.ScreenPointToRay(center);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, gunData.gunRange))
+        {
+            return (hit.point - bulletSpawnPoint.position).normalized;
+        }
+
+        return ray.direction;
+    }
+
 }

@@ -25,6 +25,14 @@ public class ThirdPersonController : MonoBehaviour
     [SerializeField] private float minPitch = -30f;
     [SerializeField] private float maxPitch = 60f;
 
+    [Header("Camera Collision")]
+    [SerializeField] private float cameraRadius = 0.2f;
+    [SerializeField] private float cameraCollisionSmooth = 0.05f;
+
+    private float currentCameraDistance;
+
+
+
     private CharacterController controller;
     private PlayerInput playerInput;
 
@@ -55,7 +63,7 @@ public class ThirdPersonController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
 
-        // store defaults but do NOT overwrite center/height on Start
+       
         defaultHeight = controller.height;
         defaultCenter = controller.center;
 
@@ -67,6 +75,9 @@ public class ThirdPersonController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        currentCameraDistance = cameraDistance;
+
     }
 
     private void Update()
@@ -97,11 +108,33 @@ public class ThirdPersonController : MonoBehaviour
     {
         if (cameraTarget == null || playerCamera == null) return;
 
+
         Quaternion rotation = Quaternion.Euler(currentRotation.x, currentRotation.y, 0f);
+
+
+        Vector3 desiredOffset = rotation * new Vector3(0f, cameraHeight, -cameraDistance);
+        Vector3 desiredCameraPos = cameraTarget.position + desiredOffset;
+
+
+        Vector3 direction = desiredCameraPos - cameraTarget.position;
+        float distance = direction.magnitude;
+
+        if (Physics.SphereCast(cameraTarget.position, cameraRadius, direction.normalized, out RaycastHit hit, distance))
+        {
+            float adjustedDistance = Mathf.Max(0.1f, hit.distance - cameraRadius);
+
+            currentCameraDistance = Mathf.Lerp(currentCameraDistance, adjustedDistance, cameraCollisionSmooth);
+        }
+        else
+        {
+            currentCameraDistance = Mathf.Lerp(currentCameraDistance, cameraDistance, cameraCollisionSmooth);
+        }
+
+        Vector3 finalOffset = rotation * new Vector3(0f, cameraHeight, -currentCameraDistance);
+        playerCamera.position = cameraTarget.position + finalOffset;
         playerCamera.rotation = rotation;
-        Vector3 offset = rotation * new Vector3(0f, cameraHeight, -cameraDistance);
-        playerCamera.position = cameraTarget.position + offset;
     }
+
 
     private void CheckGrounded()
     {
@@ -145,15 +178,15 @@ public class ThirdPersonController : MonoBehaviour
     private IEnumerator CrouchTransitionCoroutine()
     {
         isTransitioning = true;
-        bool targetCrouchState = !isCrouching; // we toggle at the start of transition
+        bool targetCrouchState = !isCrouching; 
 
         float startHeight = controller.height;
         float targetHeight = targetCrouchState ? defaultHeight * crouchHeightMultiplier : defaultHeight;
 
-        // capture the current world bottom of the capsule at transition start
+        
         float startBottomWorldY = transform.position.y + controller.center.y - (controller.height * 0.5f);
 
-        // compute target center.y that keeps the bottom at startBottomWorldY
+    
         float targetCenterY = startBottomWorldY - transform.position.y + (targetHeight * 0.5f);
         float startCenterY = controller.center.y;
 
