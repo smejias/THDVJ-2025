@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerInput playerInput;
 
+    private ThirdPersonController controller;
+    private GunController gun;
+    private HealthComponent health;
+
+
 
     private void Awake()
     {
@@ -30,27 +36,39 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+
         if (spawnPoint != null)
         {
             initialSpawnPosition = spawnPoint.position;
             initialSpawnRotation = spawnPoint.rotation;
             Debug.Log($"[GameManager] Spawn point set to: {initialSpawnPosition}");
         }
+        else if (player != null)
+        {
+            initialSpawnPosition = player.transform.position;
+            initialSpawnRotation = player.transform.rotation;
+            Debug.Log($"[GameManager] Using player's initial position: {initialSpawnPosition}");
+        }
         else
         {
-            GameObject player = GameObject.FindGameObjectWithTag("Player");
-            if (player != null)
-            {
-                initialSpawnPosition = player.transform.position;
-                initialSpawnRotation = player.transform.rotation;
-                Debug.Log($"[GameManager] Using player's initial position: {initialSpawnPosition}");
-            }
-            else
-            {
-                Debug.LogWarning("[GameManager] No spawn point and no player found! Using world origin.");
-                initialSpawnPosition = Vector3.zero;
-                initialSpawnRotation = Quaternion.identity;
-            }
+            Debug.LogWarning("[GameManager] No spawn point and no player found! Using world origin.");
+            initialSpawnPosition = Vector3.zero;
+            initialSpawnRotation = Quaternion.identity;
+        }
+
+        
+        if (player != null)
+        {
+            playerInput = player.GetComponent<PlayerInput>();
+            controller = player.GetComponent<ThirdPersonController>();
+            gun = player.GetComponentInChildren<GunController>();
+            health = player.GetComponentInChildren<HealthComponent>();
+
+     
+            health.OnDeath.AddListener(HandlePlayerDeath);
         }
     }
 
@@ -158,6 +176,47 @@ public class GameManager : MonoBehaviour
             Debug.Log("Juego reanudado");
         }
     }
+
+    private void HandlePlayerDeath()
+    {
+        Debug.Log("[GameManager] Player died!");
+
+
+
+        if (playerInput != null)
+            playerInput.enabled = false;
+
+
+        if (controller != null)
+            controller.enabled = false;
+
+
+        if (gun != null)
+            gun.enabled = false;
+
+        StartCoroutine(RespawnAfterDelay(2f));
+    }
+
+    private IEnumerator RespawnAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        RespawnPlayer();
+
+
+        if (playerInput != null)
+            playerInput.enabled = true;
+
+        if (controller != null)
+            controller.enabled = true;
+
+        if (gun != null)
+            gun.enabled = true;
+
+        Debug.Log("[GameManager] Player respawned and controls restored!");
+    }
+
+
 
 
 }
