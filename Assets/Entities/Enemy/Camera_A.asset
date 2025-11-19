@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Camera
   maxHealth: 100
-  visionRange: 10
+  visionRange: 5
   visionAngle: 60
   moveSpeed: 3
   patrolSpeed: 2

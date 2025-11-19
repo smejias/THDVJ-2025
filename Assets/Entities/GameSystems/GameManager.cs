@@ -9,8 +9,14 @@ public class GameManager : MonoBehaviour
     [Header("Player Settings")]
     [SerializeField] private Transform spawnPoint;
 
+    private bool isPaused = false;
+
+
     private Vector3 initialSpawnPosition;
     private Quaternion initialSpawnRotation;
+
+    [SerializeField] private PlayerInput playerInput;
+
 
     private void Awake()
     {
@@ -121,4 +127,37 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+
+        TogglePause();
+    }
+
+    private void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+
+            
+            playerInput.SwitchCurrentActionMap("Pause");
+
+            Debug.Log("Juego pausado");
+        }
+        else
+        {
+            Time.timeScale = 1f;
+
+       
+            playerInput.SwitchCurrentActionMap("Gameplay");
+
+            Debug.Log("Juego reanudado");
+        }
+    }
+
+
 }

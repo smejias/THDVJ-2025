@@ -2,234 +2,11 @@
     "name": "PlayerInputActions",
     "maps": [
         {
-            "name": "Move",
-            "id": "1b29ab8a-8a20-4a11-9e5d-ec0d2914a8a2",
-            "actions": [
-                {
-                    "name": "Movement",
-                    "type": "Value",
-                    "id": "7879f466-1a2d-44b6-bafd-d505540a42ea",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "2D Vector",
-                    "id": "56514618-eeba-4ce9-b009-f8dc6340332b",
-                    "path": "2DVector",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "up",
-                    "id": "37b6b752-cace-4787-96c2-d787fdcf7968",
-                    "path": "<Keyboard>/w",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "down",
-                    "id": "6a7c31ef-61e1-4c10-86e8-7455ab271ada",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "left",
-                    "id": "92805938-eafa-45ec-b29a-97fc18bd5706",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "right",
-                    "id": "cef20a01-8980-48c1-86f8-7bffc37ae5b6",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Movement",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                }
-            ]
-        },
-        {
-            "name": "Look",
-            "id": "050c4a76-03e0-4b28-a04d-d370e103ec30",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Value",
-                    "id": "e93116ea-c38c-48f0-8388-13add9477b39",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "4f37665c-a473-4c7c-9a09-fa0cbbe9da70",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Shoot",
-            "id": "087d7045-175b-4cbe-b239-af391998c2bd",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "4caf736b-2238-4c52-bef7-813d16653bc4",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "ceb21cac-e8ee-4217-9b7d-91572507f96d",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Respawn",
-            "id": "f1232a37-c361-4dd8-8235-31319e3b64b9",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "77ddc0d1-c4a3-4670-a750-26174212b3ba",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "b974daf4-606b-4086-b265-b854586a172d",
-                    "path": "<Keyboard>/f1",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Reload",
-            "id": "efd2dcc8-bfc4-43c7-b08e-9695ab151db0",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "a3fd7158-0915-4c3c-b839-a3084dede97e",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "d981f111-79b0-4192-bf99-1050deb3daf6",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Crouch",
-            "id": "f3797523-7942-4f71-94e0-e9965450c352",
-            "actions": [
-                {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "26b71436-c6e4-41d9-bb0b-68285522be89",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "93f58c82-09b3-4f11-8e24-0d75c2507a48",
-                    "path": "<Keyboard>/leftCtrl",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "485e65fe-4cfe-485e-ac82-cc33b926a2c1",
-                    "path": "<Keyboard>/c",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                }
-            ]
-        },
-        {
             "name": "Pause",
             "id": "59d3e8f1-ec58-42c5-a98c-37a3126444f9",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Unpause",
                     "type": "Button",
                     "id": "b47fe4c8-3a01-447c-8ffc-337b0568828b",
                     "expectedControlType": "",
@@ -246,20 +23,83 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Unpause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "Restart",
-            "id": "68eae464-9d71-4b25-bca8-e737f02c867d",
+            "name": "Gameplay",
+            "id": "5efc66a4-4750-4357-b014-2869956d9b29",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "Movement",
+                    "type": "Value",
+                    "id": "759542f3-5573-40ba-94ee-ac1391fa1df6",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Restart",
                     "type": "Button",
-                    "id": "6349ba73-68a0-460f-930c-d4f67744ca30",
+                    "id": "8481d7a7-8f89-4a29-8fd5-d8e1639830f7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Look",
+                    "type": "Value",
+                    "id": "f487889c-d729-4ced-9b40-924eda7db21f",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Shoot",
+                    "type": "Button",
+                    "id": "79822a77-c87c-4bbc-aa8f-d2452563593a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Respawn",
+                    "type": "Button",
+                    "id": "5387a6c9-f65b-41e8-9e21-3545205456c1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "cc03dbd9-8b59-4cb9-90f1-8d490de44339",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Pause",
+                    "type": "Button",
+                    "id": "0494292c-4270-4035-aa36-caab388f05a4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "6d38c7af-a5bd-4444-a864-8771a7e08eac",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -268,13 +108,145 @@
             ],
             "bindings": [
                 {
+                    "name": "2D Vector",
+                    "id": "254db6be-3ad9-4d60-b9aa-0ccb4ed9cf05",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "acc79aa1-4d0a-4e9c-b0e9-46e4fe75c94b",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "ee8b67f2-7126-4c3c-9cf4-f6b8edb8ed16",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "b2c2b3e4-df70-435d-ad9e-b4b0bc5c6b69",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "d473af12-3c46-44ee-a0c4-dd30cef2ca4e",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Movement",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
                     "name": "",
-                    "id": "31d27753-2f42-473a-bbfb-088f7a82b6fb",
+                    "id": "2300db86-88b4-432b-b75e-d46507d1cf49",
                     "path": "<Keyboard>/f2",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d57f8a25-505b-4899-9971-82e8f8226cc5",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8154588e-fcd5-4ae2-a875-f83ca12c50a9",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a220169d-0c1f-4b14-a2e7-bd1cbdde95c3",
+                    "path": "<Keyboard>/f1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Respawn",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b3dee647-9e0f-48de-9d69-e4d9d520501b",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "74f3f2bb-a854-45c1-a997-048637045371",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a19bf8f-7e43-48af-9271-c35c601a9d8f",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "086422c7-f3ea-4754-a4bf-beb82cdd5f3e",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
